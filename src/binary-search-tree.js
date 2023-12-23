@@ -1,6 +1,6 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
- const { Node } = require('../extensions/list-tree.js');
+const { Node } = require('../extensions/list-tree.js');
 
 /**
 * Implement simple binary search tree according to task description
@@ -38,7 +38,7 @@ class BinarySearchTree {
   }
 
   has(data) {
-    this.rootValue = searchWithin(this.rootValue, data)
+    return searchWithin(this.rootValue, data)
 
     function searchWithin(node, data) {
       if (!node) {
@@ -56,6 +56,21 @@ class BinarySearchTree {
 
   find(data) {
     
+    return findWithin(this.rootValue, data);
+
+    function findWithin(node, data) {
+      if (!node) {
+        return null;
+      }
+
+      if (data === node.data) {
+        return node;
+      } else if (data < node.data) {
+        return findWithin(node.left, data);
+      } else {
+        return findWithin(node.right, data);
+      }
+    }
   }
 
   remove(data) {
@@ -77,7 +92,7 @@ class BinarySearchTree {
       else {
         if (!node.left && !node.right) {
           return null;
-        } 
+        }
       }
 
       if (!node.left) {
@@ -92,8 +107,8 @@ class BinarySearchTree {
       let minFromRight = node.right;
       while (minFromRight.left) {
         minFromRight = minFromRight.left;
-      } 
-  
+      }
+
       node.data = minFromRight.data;
       node.right = removeNode(node.right, minFromRight.data);
       return node;
@@ -101,11 +116,25 @@ class BinarySearchTree {
   }
 
   min() {
-
+    if (!this.rootValue) {
+      return
+    }
+    let node = this.rootValue;
+    while (node.left) {
+      node = node.left;
+    }
+    return node.data;
   }
 
   max() {
-
+    if (!this.rootValue) {
+      return
+    }
+    let node = this.rootValue;
+    while (node.right) {
+      node = node.right;
+    }
+    return node.data;
   }
 }
 
